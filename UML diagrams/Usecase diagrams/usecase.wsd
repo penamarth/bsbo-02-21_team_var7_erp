@@ -1,0 +1,33 @@
+@startuml Usecases
+left to right direction
+
+actor "Project Manager" as manager
+actor "Project executor" as executor
+
+actor "Project management system" as pmanager
+actor "kanban Desk" as tmanager
+actor "Reports Manager" as rmanager
+actor "Stats Manager" as smanager
+
+rectangle KanbanSystem {
+    usecase "Manage Project" as project_manage
+    usecase "Manage Tasks" as tasks_manage
+    usecase "Manage Access" as access_manage
+    usecase "Work with Task Reports" as reports_manage
+    usecase "Manage Statistics" as stats_manage
+}
+
+
+manager -- project_manage
+manager -- tasks_manage
+manager -- access_manage
+manager -- stats_manage
+executor -- tasks_manage
+executor -- reports_manage
+manager -- reports_manage
+project_manage -- pmanager
+tasks_manage -- tmanager
+access_manage -- pmanager
+reports_manage -- rmanager
+stats_manage -- smanager
+@endum

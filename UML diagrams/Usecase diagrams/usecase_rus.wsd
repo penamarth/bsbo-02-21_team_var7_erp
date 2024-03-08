@@ -1,0 +1,33 @@
+@startuml Usecases
+left to right direction
+
+actor "Руководитель" as manager
+actor "Исполнитель" as executor
+
+actor "Система управления проектами" as pmanager
+actor "Система управления канбан доской" as tmanager
+actor "Ситсема обработки отчетов" as rmanager
+actor "Аналитическя система сбора статистики" as smanager
+
+rectangle KanbanSystem {
+    usecase "Управление проектами" as project_manage
+    usecase "Управление задачами" as tasks_manage
+    usecase "Управление правами доступа" as access_manage
+    usecase "Работа с отчетами о выполненных задачах" as reports_manage
+    usecase "Просмотр статистики" as stats_manage
+}
+
+
+manager -- project_manage
+manager -- tasks_manage
+manager -- access_manage
+manager -- stats_manage
+executor -- tasks_manage
+executor -- reports_manage
+manager -- reports_manage
+project_manage -- pmanager
+tasks_manage -- tmanager
+access_manage -- pmanager
+reports_manage -- rmanager
+stats_manage -- smanager
+@endum
