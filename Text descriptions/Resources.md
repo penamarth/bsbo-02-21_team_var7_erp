@@ -5,5 +5,8 @@
 + https://itonboard.ru/analysis/394-diagramma_posledovatelnosti_sequence_diagrams_uml/
 
 
+Дока по созданию диаграмм в PlantUML (английский)
++ https://plantuml.com/guide
+
 Ссылка на Miro (по итогу переходим чисто в гитхаб вместо использования Miro для работы с Draw.io)
 https://miro.com/welcomeonboard/VGhsMllrWkg2elhvTVMyMTl1bXRVb09paFA5dTNBcHhnT1B3WVhONFRIRVFRNEx3S0hUdm1MQjlMS0xWQ2tSdXwzMDc0NDU3MzUwNjg1MDY0NDc4fDI=?share_link_id=152635964157
