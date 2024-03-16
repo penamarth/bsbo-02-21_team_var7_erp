@@ -1,0 +1,44 @@
+@startuml sequence
+title Управление задачами
+
+actor Исполнитель as exec
+boundary "Веб-интерфейс" as site
+control TaskContoller as tcont
+control TaskManagerService as tmserv
+control TaskDao as tdao
+database Database as db
+
+activate exec
+activate site
+activate db
+activate tcont
+activate tmserv
+activate tdao
+exec -> site : Изменение состояния\nзадачи через GUI
+
+alt верный запрос
+site -> tcont : JSON запрос на изменение\nсостояния задачи
+else запрос не прошел валидацию
+site <-- tcont : Сообщение об ошибке в\nзапросе с кодом 400
+exec <-- site : Отображение ошибки
+end
+tcont -> tmserv : updateTask(TaskDto)
+tmserv -> tdao : findById(long)
+
+alt сущность с указанным id существует
+tdao -> db : SQL запрос
+tdao <-- db : Результативная\nстрока
+tmserv <-- tdao : Объект Task
+tmserv -> tmserv : Упаковка Task в TaskDto
+tcont <-- tmserv : Объект TaskDto
+site <-- tcont : JSON ответ с кодом 200
+exec <-- site : Обновленное состояния\nзадачи в GUI
+else сущность с указанным id не существует
+tdao <-- db : ошибка базы данных
+tmserv <-- tdao : исключение NoSuchElementException
+tcont <-- tmserv : исключение NoSuchElementException
+site <-- tcont : Сообщение об ошибке в\nзапросе с кодом 400
+exec <-- site : Отображение ошибки
+end
+
+@enduml
