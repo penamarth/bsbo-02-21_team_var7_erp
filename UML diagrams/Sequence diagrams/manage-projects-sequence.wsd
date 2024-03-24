@@ -1,0 +1,46 @@
+@startuml sequence
+title Управление проектами
+
+actor Руководитель as manager
+boundary "Веб-интерфейс" as site
+control ProjectController as pcont
+control ProjectManagerService as pmserv
+control ProjectDao as pdao
+database Database as db
+
+activate manager
+activate site
+activate db
+activate pcont
+activate pmserv
+activate pdao
+
+manager -> site : Создание/изменение проекта через GUI
+
+alt верный запрос
+    site -> pcont : JSON запрос на создание/изменение проекта
+else запрос не прошел валидацию
+    site <-- pcont : Сообщение об ошибке в запросе с кодом 400
+    manager <-- site : Отображение ошибки
+end
+
+pcont -> pmserv : createOrUpdateProject(ProjectDto)
+pmserv -> pdao : saveOrUpdate(ProjectEntity)
+
+alt проект успешно создан/изменен
+    pdao -> db : SQL запрос
+    pdao <-- db : Результативная строка
+    pmserv <-- pdao : Объект Project
+    pmserv -> pmserv : Упаковка Project в ProjectDto
+    pcont <-- pmserv : Объект ProjectDto
+    site <-- pcont : JSON ответ с кодом 200
+    manager <-- site : Отображение успешного создания/изменения проекта
+else произошла ошибка при создании/изменении проекта
+    pdao <-- db : Ошибка базы данных
+    pmserv <-- pdao : Исключение при обработке запроса
+    pcont <-- pmserv : Исключение при обработке запроса
+    site <-- pcont : Сообщение об ошибке в запросе с кодом 400
+    manager <-- site : Отображение ошибки
+end
+
+@enduml
