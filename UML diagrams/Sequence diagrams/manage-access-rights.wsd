@@ -1,0 +1,69 @@
+@startuml sequence
+title Управление правами доступа
+
+actor Руководитель as user
+boundary "Интерфейс" as site
+control ProjectContoller as pcont
+control ProjectAccessManagementService as amserv
+control ProjectDao as pdao 
+control UserDao as udao
+database Database as db
+
+activate user
+activate site
+activate db
+activate pcont
+activate amserv
+activate pdao
+activate udao
+
+user -> site : Изменение состояния\nзадачи через GUI
+site -> pcont : JSON запрос на изменение\nправ доступа к проекту\nпользователем
+
+alt Верный запрос
+    pcont -> pcont : Формирование\nAccessManagePolicy(Sender, Project, 'Manager')
+    pcont -> amserv : checkUserAccessToProject(AccessManagePolicy)
+    amserv -> pdao : findByID(Project)
+    alt True
+        amserv -> pdao : isProjectManager(Project, Sender)
+        alt True
+            pcont <- amserv : True
+            pcont -> pcont : Формирование\nAccessManagePolicy(User, Project, NewAccess)
+            pcont -> amserv: updateUserAccessToProject(AccessManagePolicy)
+            amserv -> udao : isUserExists(User)
+            alt True
+                amserv -> pdao : setAccessToProject(Project, User, NewAccess)
+                pdao -> db : SQL-запрос
+                alt True
+                    pcont <- amserv : True
+                    site <- pcont : 200
+                    user <- site : Отображение выполнения операции
+                else False
+                    pcont <- amserv : UnknownError 
+                    site <- pcont : 403:\nНеизвестная ошибка
+                    user <- site : Отображение ошибки
+                end
+            else False
+                pcont <- amserv : NoSuchUser
+                site <- pcont : 404:\nПользователь не найден
+                user <- manager : Отображение ошибки
+            end
+        
+        else False
+            pcont <- amserv : PermissionsDenied
+            site <- pcont : 401:\nPermissionsDenied
+            user <- site : Отображение ошибки
+        end
+    else False
+        pcont <- amserv : NoSuchProject
+        site <- pcont : 404:\nПроект пользователя не найден
+        user <- site : Отображение ошибки
+    end
+    
+else Ошибка в запросе
+    pcont -> site : Сообщение об ошибке в\nзапросе с кодом 400
+    user <- site : Отображение ошибки
+end
+
+
+@enduml
