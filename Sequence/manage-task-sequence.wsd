@@ -16,8 +16,8 @@ activate tmserv
 activate tdao
 exec -> site : Изменение состояния\nзадачи через GUI
 
-alt верный запрос
-site -> tcont : JSON запрос на изменение\nсостояния задачи
+alt запрос проходит\nвалидацию
+site -> tcont : HTTP PUT запрос с\nJSON TaskDto в body
 else запрос не прошел валидацию
 site <-- tcont : Сообщение об ошибке в\nзапросе с кодом 400
 exec <-- site : Отображение ошибки
@@ -25,16 +25,23 @@ end
 tcont -> tmserv : updateTask(TaskDto)
 tmserv -> tdao : findById(long)
 
-alt сущность с указанным id существует
-tdao -> db : SQL запрос
+alt сущность с указанным\nid существует
+tdao -> db : SQL запрос на чтение
 tdao <-- db : Результативная\nстрока
 tmserv <-- tdao : Объект Task
-tmserv -> tmserv : Упаковка Task в TaskDto
+tmserv -> tmserv : Преобразование TaskDto\nобъекта в Task объект
+tmserv -> tdao : save(Task)
+tdao -> db : SQL запрос на изменение
+tdao <-- db : Id измененной строки
+tdao -> db : SQL запрос на чтение
+tdao <-- db : Результативная\nстрока
+tmserv <-- tdao : Объект Task
+tmserv -> tmserv : Преобразование Task\nобъекта в TaskDto объект
 tcont <-- tmserv : Объект TaskDto
-site <-- tcont : JSON ответ с кодом 200
+site <-- tcont : HTTP ответ с кодом 200\nи новым объектом JSON в body
 exec <-- site : Обновленное состояния\nзадачи в GUI
-else сущность с указанным id не существует
-tdao <-- db : ошибка базы данных
+else сущность с указанным\nid не существует
+tdao <-- db : Пустые строки
 tmserv <-- tdao : исключение NoSuchElementException
 tcont <-- tmserv : исключение NoSuchElementException
 site <-- tcont : Сообщение об ошибке в\nзапросе с кодом 400
