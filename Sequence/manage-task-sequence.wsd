@@ -33,6 +33,7 @@ tmserv -> tmserv : Преобразование TaskDto\nобъекта в Task 
 tmserv -> tdao : save(Task)
 tdao -> db : SQL запрос на изменение
 tdao <-- db : Id измененной строки
+tdao -> tdao : findById(id)
 tdao -> db : SQL запрос на чтение
 tdao <-- db : Результативная\nстрока
 tmserv <-- tdao : Объект Task
@@ -42,7 +43,7 @@ site <-- tcont : HTTP ответ с кодом 200\nи новым объекто
 exec <-- site : Обновленное состояния\nзадачи в GUI
 else сущность с указанным\nid не существует
 tdao <-- db : Пустые строки
-tmserv <-- tdao : исключение NoSuchElementException
+tmserv <-- tdao : null
 tcont <-- tmserv : исключение NoSuchElementException
 site <-- tcont : Сообщение об ошибке в\nзапросе с кодом 400
 exec <-- site : Отображение ошибки
