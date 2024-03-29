@@ -43,7 +43,7 @@ alt Верный запрос
                     site <- pcont : 403:\nНеизвестная ошибка
                     user <- site : Отображение ошибки
                 end
-            else False
+            else NoSuchUser
                 pcont <- amserv : NoSuchUser
                 site <- pcont : 404:\nПользователь не найден
                 user <- manager : Отображение ошибки
@@ -54,7 +54,7 @@ alt Верный запрос
             site <- pcont : 401:\nPermissionsDenied
             user <- site : Отображение ошибки
         end
-    else False
+    else NoSuchProject
         pcont <- amserv : NoSuchProject
         site <- pcont : 404:\nПроект пользователя не найден
         user <- site : Отображение ошибки
