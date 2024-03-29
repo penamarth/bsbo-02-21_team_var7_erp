@@ -46,7 +46,7 @@ alt Верный запрос
             else NoSuchUser
                 pcont <- amserv : NoSuchUser
                 site <- pcont : 404:\nПользователь не найден
-                user <- manager : Отображение ошибки
+                user <- site : Отображение ошибки
             end
         
         else False
