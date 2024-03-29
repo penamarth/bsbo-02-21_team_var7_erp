@@ -1,0 +1,190 @@
+@startuml
+abstract class AbstractEntity
+{
+    - long id;
+    + long getId()
+    + void setId(long id)
+}
+class User
+{
+    - String firstName
+    - String lastName
+    - String middleName
+    - String email
+    - String password
+    - Role role
+    - List<Specialization> Specialization
+    + String getFirstName()
+    + void setFirstName(String firstName)
+    + String getLastName()
+    + void setLastName(String lastName)
+    + String getMiddleName()
+    + void setMiddleName(String middleName)
+    + String getEmail()
+    + void setEmail(String email)
+    + String getPassword()
+    + void setPassword(String password)
+    + Role getRole()
+    + void setRole(Role role)
+}
+class UserDto
+{
+    - String firstName
+    - String lastName
+    - String middleName
+    - String email
+    - Role role
+    - List<Specialization> Specialization
+    + String getFirstName()
+    + void setFirstName(String firstName)
+    + String getLastName()
+    + void setLastName(String lastName)
+    + String getMiddleName()
+    + void setMiddleName(String middleName)
+    + String getEmail()
+    + void setEmail(String email)
+    + Role getRole()
+    + void setRole(Role role)
+}
+class Role
+{
+    - String name
+    + String getName()
+    + void setName()
+}
+class Project
+{
+    - String name
+    - String projectGoal
+    - Date deadline
+    - String customer
+    - KanbanDesk kanbanDesk
+    + String getName()
+    + void setName()
+    + String getProjectGoal()
+    + void setProjectGoal(String projectGoal)
+    + Date getDeadline()
+    + void setDeadline(Date date)
+    + String getCustomer()
+    + void setCustomer(String customer)
+    + KanbanDesk getKanbanDesk()
+    + void setKanbanDesk(KanbanDesk kanbanDesk)
+}
+class TaskStatus
+{
+    - String name
+    + String getName()
+    + void setName()
+}
+class Task
+{
+    - TaskStatus taskStatus
+    - String description
+    - List<User> users
+    + TaskStatus getTaskStatus()
+    + void setTaskStatus(TaskStatus taskStatus)
+    + String getDescription()
+    + void setDescription(String description)
+    + List<User> getUsers()
+    + void setUsers(List<User> users)
+}
+class TaskDto
+{
+    - TaskStatus taskStatus
+    - String description
+    - List<UserDto> users
+    + TaskStatus getTaskStatus()
+    + void setTaskStatus(TaskStatus taskStatus)
+    + String getDescription()
+    + void setDescription(String description)
+    + List<User> getUsers()
+    + void setUsers(List<UserDto> users)   
+}
+class KanbanDesk
+{
+    - int sprintNumber
+    - Date sprintStartDate
+    - Date sprintEndDate
+    - List<Task> tasks
+    + int getSprintNumber()
+    + void setSprintNumber(int sprintNumber)
+    + Date getSprintStartDate()
+    + void setSprintStartDate(Date sprintStartDate)
+    + Date getSprintEndDate()
+    + void setSprintEndDate(Date sprintEndDate)
+    + List<Task> getTasks()
+    + void setTasks(List<Task> tasks)
+}
+class Report
+{
+    - User user
+    - KanbanDesk kanbanDesk
+    - List<Task> tasks
+    - String message
+    + User getUser()
+    + void setUser(User user)
+    + KanbanDesk getKanbanDesk()
+    + void setKanbanDesk(KanbanDesk kanbanDesk)
+    + List<Task> getTasks()
+    + void setTasks(List<Task> tasks)
+    + String getMessage()
+    + void setMessage(String message)
+}
+class Specialization
+{
+    - String name
+    + String getName()
+    + void setName()
+}
+interface TaskDao
+{
+    + Task findById(long id)
+    + Task save(Task task)
+}
+class TaskDaoImpl
+{
+
+}
+class TaskController
+{
+    - TaskManagerService taskManagerService
+    + TaskController(TaskManagerService taskManagerService)
+    + ResponseEntity<TaskDto> updateTask(TaskDto taskDto)
+}
+interface TaskManagerService
+{
+    + TaskDto updateTask(TaskDto taskDto)
+}
+class TaskManagerServiceImpl
+{
+    - TaskDao taskDao
+    + TaskManagerServiceImpl(TaskDao taskDao)
+}
+
+User --|> AbstractEntity
+Project --|> AbstractEntity
+TaskStatus --|> AbstractEntity
+Task --|> AbstractEntity
+KanbanDesk --|> AbstractEntity
+Report --|> AbstractEntity
+Specialization --|> AbstractEntity
+Role --|> AbstractEntity
+User --o Task
+Report --o KanbanDesk
+User --o Specialization
+User --o Role
+Report --o Task
+Report --o User
+KanbanDesk --* Project
+Task --* KanbanDesk
+UserDto --o Specialization
+UserDto --o Role
+TaskDto --o UserDto
+TaskDaoImpl ..|> TaskDao
+TaskManagerServiceImpl ..|> TaskManagerService
+TaskController ..> TaskManagerService
+TaskController ..> TaskDto
+TaskManagerServiceImpl ..> TaskDao
+TaskManagerService ..> TaskDto
+
+@enduml
