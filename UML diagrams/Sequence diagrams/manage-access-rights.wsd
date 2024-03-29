@@ -17,7 +17,7 @@ activate amserv
 activate pdao
 activate udao
 
-user -> site : Изменение состояния\nзадачи через GUI
+user -> site : Изменение права доступа через GUI
 site -> pcont : JSON запрос на изменение\nправ доступа к проекту\nпользователем
 
 alt Верный запрос
