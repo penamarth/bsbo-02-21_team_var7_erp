@@ -24,14 +24,14 @@ alt Верный запрос
     pcont -> pcont : Формирование\nAccessManagePolicy(Sender, Project, 'Manager')
     pcont -> amserv : checkUserAccessToProject(AccessManagePolicy)
     amserv -> pdao : findByID(Project)
-    alt True
+    alt Project
         amserv -> pdao : isProjectManager(Project, Sender)
         alt True
             pcont <- amserv : True
             pcont -> pcont : Формирование\nAccessManagePolicy(User, Project, NewAccess)
             pcont -> amserv: updateUserAccessToProject(AccessManagePolicy)
-            amserv -> udao : isUserExists(User)
-            alt True
+            amserv -> udao : findByID(User)
+            alt User
                 amserv -> pdao : setAccessToProject(Project, User, NewAccess)
                 pdao -> db : SQL-запрос
                 alt True
