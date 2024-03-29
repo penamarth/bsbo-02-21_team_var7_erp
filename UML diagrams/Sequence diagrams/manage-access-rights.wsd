@@ -22,7 +22,7 @@ site -> pcont : JSON запрос на изменение\nправ доступ
 
 alt Верный запрос
     pcont -> pcont : Формирование\nAccessManagePolicy(Sender, Project, 'Manager')
-    pcont -> amserv : checkUserAccessToProject(AccessManagePolicy)
+    pcont -> amserv : hasUserAccessToProject(AccessManagePolicy)
     amserv -> pdao : findByID(Project)
     alt Project
         amserv -> pdao : isProjectManager(long, long)

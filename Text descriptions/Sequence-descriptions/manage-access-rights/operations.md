@@ -1,4 +1,4 @@
-Операция: checkUserAccessToProject(accessPolicy: AccessManagePolicy)
+Операция: hasUserAccessToProject(accessPolicy: AccessManagePolicy)
 Предусловия: 
 + объект AccessManagePolicy (формируется на основе конструктора AccessManagePolicy(User, Project, Access))
 Постусловия:
