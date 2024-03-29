@@ -25,7 +25,7 @@ else запрос не прошел валидацию
 end
 
 pcont -> pmserv : createOrUpdateProject(ProjectDto)
-pmserv -> pdao : saveOrUpdate(ProjectEntity)
+pmserv -> pdao : save(ProjectEntity)
 
 alt проект успешно создан/изменен
     pdao -> db : SQL запрос

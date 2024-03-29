@@ -1,4 +1,4 @@
-@startuml
+@startuml classes
 abstract class AbstractEntity
 {
     - long id;
@@ -70,6 +70,24 @@ class Project
     + KanbanDesk getKanbanDesk()
     + void setKanbanDesk(KanbanDesk kanbanDesk)
 }
+class ProjectDto
+{
+    - String name
+    - String projectGoal
+    - Date deadline
+    - String customer
+    - KanbanDeskDto kanbanDesk
+    + String getName()
+    + void setName()
+    + String getProjectGoal()
+    + void setProjectGoal(String projectGoal)
+    + Date getDeadline()
+    + void setDeadline(Date date)
+    + String getCustomer()
+    + void setCustomer(String customer)
+    + KanbanDeskDto getKanbanDesk()
+    + void setKanbanDesk(KanbanDeskDto kanbanDesk)
+}
 class TaskStatus
 {
     - String name
@@ -115,6 +133,21 @@ class KanbanDesk
     + List<Task> getTasks()
     + void setTasks(List<Task> tasks)
 }
+class KanbanDeskDto
+{
+    - int sprintNumber
+    - Date sprintStartDate
+    - Date sprintEndDate
+    - List<TaskDto> tasks
+    + int getSprintNumber()
+    + void setSprintNumber(int sprintNumber)
+    + Date getSprintStartDate()
+    + void setSprintStartDate(Date sprintStartDate)
+    + Date getSprintEndDate()
+    + void setSprintEndDate(Date sprintEndDate)
+    + List<TaskDto> getTasks()
+    + void setTasks(List<TaskDto> tasks) 
+}
 class Report
 {
     - User user
@@ -141,7 +174,15 @@ interface TaskDao
     + Task findById(long id)
     + Task save(Task task)
 }
+interface ProjectDao
+{
+    + Project save(Project project)
+}
 class TaskDaoImpl
+{
+
+}
+class ProjectDaoImpl
 {
 
 }
@@ -151,14 +192,28 @@ class TaskController
     + TaskController(TaskManagerService taskManagerService)
     + ResponseEntity<TaskDto> updateTask(TaskDto taskDto)
 }
+class ProjectController
+{
+    - ProjectManagerService projectManagerService
+    + ResponseEntity<ProjectDto> createOrUpdateProject(ProjectDto projectDto)
+}
 interface TaskManagerService
 {
     + TaskDto updateTask(TaskDto taskDto)
+}
+interface ProjectManagerService
+{
+    + ProjectDto createOrUpdateProject(ProjectDto projectDto)
 }
 class TaskManagerServiceImpl
 {
     - TaskDao taskDao
     + TaskManagerServiceImpl(TaskDao taskDao)
+}
+class ProjectManagerServiceImpl
+{
+    - ProjectDao projectDao
+    + ProjectManagerServiceImpl(ProjectDao projectDao)
 }
 
 User --|> AbstractEntity
@@ -186,5 +241,13 @@ TaskController ..> TaskManagerService
 TaskController ..> TaskDto
 TaskManagerServiceImpl ..> TaskDao
 TaskManagerService ..> TaskDto
+ProjectDto  --o KanbanDeskDto
+KanbanDeskDto --o TaskDto
+ProjectController --> ProjectDto
+ProjectController --> ProjectManagerService
+ProjectManagerServiceImpl --> ProjectDao
+ProjectManagerServiceImpl ..|> ProjectManagerService
+ProjectDaoImpl ..|> ProjectDao
+ProjectManagerService --> ProjectDto
 
 @enduml
