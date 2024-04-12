@@ -5,9 +5,7 @@ actor Руководитель as user
 boundary "Интерфейс" as site
 control ProjectContoller as pcont
 control ProjectAccessManagementService as amserv
-control TaskManagerService as tmserv
 control ProjectDao as pdao 
-control TaskDao as tdao
 control UserDao as udao
 database Database as db
 
@@ -28,14 +26,15 @@ alt Верный запрос
     pcont -> amserv : hasUserAccessToProject(AccessManagePolicy)
     amserv -> pdao : findByID(Project)
     alt Project
-        amserv -> pdao : isProjectManager(long, long)
+        amserv -> pdao : isProjectManager(User, Project)
+        pdao -> db : SQL-запрос
         alt True
             pcont <- amserv : True
             pcont -> pcont : Формирование\nAccessManagePolicy(User, Project, NewAccess)
             pcont -> amserv: updateUserAccessToProject(AccessManagePolicy)
-            amserv -> udao : findByID(long)
+            amserv -> udao : findByID(User)
             alt User
-                amserv -> pdao : setAccessToProject(long, long, String)
+                amserv -> pdao : setAccessToProject(User, Project, NewAccess)
                 pdao -> db : SQL-запрос
                 alt True
                     pcont <- amserv : True
