@@ -1,0 +1,81 @@
+@startuml sequence
+title Работа с системой отчетов
+
+actor Пользователь as user
+
+boundary "Интерфейс" as site
+control ReportController as rcont
+control ReportManageService as rmserv
+control ProjectAccessManagementService as amserv
+control ReportDAO as rdao
+control UserDAO as udao
+control ProjectDAO as pdao
+control TaskDAO as tdao
+database Database as db
+
+activate user
+activate site
+activate rcont
+activate rmserv
+activate amserv
+activate rdao
+activate udao
+activate pdao
+activate tdao
+activate db
+
+
+user -> site : Заполнение формы отчета\nи нажатие кнопки "Отослать отчет"
+site -> rcont : JSON с данными отчета \n(Dictionary<Project, Dictionary<id, Time>, String)
+
+alt Запрос верный
+    rcont -> rcont : AccessManagePolicy(User, Project, 'Worker')
+    rcont -> amserv : hasUserAccessToProject(AccessManagePolicy)
+    amserv -> udao : findById(long)   
+    alt User
+        loop Dictionary.length :  
+            rcont -> rcont : ProjectReport(User, Dictionary<id, Time>, String)
+            rcont -> rmserv : SendReportOnTasks(Project, ProjectReport)
+            rmserv -> pdao : findById(Project)
+            alt True
+                loop Dictionary: taksId, Time
+                    rmserv -> tdao : markTaks(Task, User, Time)
+                    alt True
+                        
+                        
+                    else NoSuchTask
+                        rcont <- rmserv : NoSuchTask
+                        site <- rcont : 404 NoSuchTask
+                        user <- site : Отображение ошибки
+                    else TaskIsMarked
+                        rcont <- rmserv : TaskIsMarked
+                        site <- rcont : 403 TaskIsMarked
+                        user <- site : Отображение ошибки
+                    else WrongTime
+                        rcont <- rmserv : WrongTime
+                        site <- rcont : 400 WrongTime
+                        user <- site : Отображение ошибки
+                    else UnknowError
+                        rcont <- rmserv : UnknowError
+                        site <- rcont : 400 UnknowError
+                        user <- site : Отображение ошибки
+            else NoSuchProject
+                rcont <- rmserv : NoSuchProject
+                site <- rcont : 404 NoSuchProject
+                user <- site : Отображение ошибки
+            end
+        end
+        rcont -> rmserv : writeReport(User, String)
+
+    else NoSuchUser
+        rcont <- amserv : NoSuchUser
+        site <- rcont : 404 NoSuchUser
+        user <- site : Отображение ошибки
+    end
+
+else Запрос не верный
+    site <- rcont : 400 WrongStruct
+    user <- site : Отображение ошибки
+end
+
+@enduml

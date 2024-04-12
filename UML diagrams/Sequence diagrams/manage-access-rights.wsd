@@ -5,7 +5,9 @@ actor Руководитель as user
 boundary "Интерфейс" as site
 control ProjectContoller as pcont
 control ProjectAccessManagementService as amserv
+control TaskManagerService as tmserv
 control ProjectDao as pdao 
+control TaskDao as tdao
 control UserDao as udao
 database Database as db
 
@@ -19,6 +21,7 @@ activate udao
 
 user -> site : Изменение права доступа через GUI
 site -> pcont : JSON запрос на изменение\nправ доступа к проекту\nпользователем
+
 
 alt Верный запрос
     pcont -> pcont : Формирование\nAccessManagePolicy(Sender, Project, 'Manager')
