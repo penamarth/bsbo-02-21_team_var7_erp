@@ -59,6 +59,8 @@ class Project
     - Date deadline
     - String customer
     - KanbanDesk kanbanDesk
+    - List<User> users
+    - User user
     + String getName()
     + void setName()
     + String getProjectGoal()
@@ -69,6 +71,10 @@ class Project
     + void setCustomer(String customer)
     + KanbanDesk getKanbanDesk()
     + void setKanbanDesk(KanbanDesk kanbanDesk)
+    + List<User> getUsers()
+    + void setUsers(List<User> users)
+    + User getUser()
+    + void setUser(User user)
 }
 class ProjectDto
 {
@@ -98,13 +104,10 @@ class Task
 {
     - TaskStatus taskStatus
     - String description
-    - List<User> users
     + TaskStatus getTaskStatus()
     + void setTaskStatus(TaskStatus taskStatus)
     + String getDescription()
     + void setDescription(String description)
-    + List<User> getUsers()
-    + void setUsers(List<User> users)
 }
 class TaskDto
 {
@@ -196,6 +199,7 @@ class ProjectController
 {
     - ProjectManagerService projectManagerService
     + ResponseEntity<ProjectDto> createOrUpdateProject(ProjectDto projectDto)
+    + ResponseEntity<ProjectDto> update
 }
 interface TaskManagerService
 {
@@ -214,6 +218,11 @@ class ProjectManagerServiceImpl
 {
     - ProjectDao projectDao
     + ProjectManagerServiceImpl(ProjectDao projectDao)
+}
+enum Authority
+{
+    + READ
+    + EDIT
 }
 
 User --|> AbstractEntity
