@@ -21,8 +21,14 @@ group Запрос статистики Руководителем
     manager -> site : Запрос статистики проекта/задач
     site -> scont : JSON запрос статистики
     scont -> tasker : getProjectStatistics(long projectId)
-    tasker -> sserv : Передача запроса
+    tasker -> sserv : 
     sserv -> db : SQL запрос данных проекта
+    
+    
+    
+    
+    
+    
     db --> sserv : Данные проекта
     sserv --> tasker : Статистика проекта
     tasker -> tasker : Обработка в TaskDao

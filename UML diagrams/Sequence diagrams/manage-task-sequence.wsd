@@ -22,18 +22,18 @@ else запрос не прошел валидацию
 site <-- tcont : Сообщение об ошибке в\nзапросе с кодом 400
 exec <-- site : Отображение ошибки
 end
-tcont -> tmserv : updateTask(TaskDto)
-tmserv -> tdao : findById(long)
+tcont -> tmserv : updateTask(taskDto:Task)
+tmserv -> tdao : findById(task:long)
 
 alt сущность с указанным\nid существует
 tdao -> db : SQL запрос на чтение
 tdao <-- db : Результативная\nстрока
 tmserv <-- tdao : Объект Task
 tmserv -> tmserv : Преобразование TaskDto\nобъекта в Task объект
-tmserv -> tdao : save(Task)
+tmserv -> tdao : save(task:Task)
 tdao -> db : SQL запрос на изменение
 tdao <-- db : Id измененной строки
-tdao -> tdao : findById(id)
+tdao -> tdao : findById(task:long)
 tdao -> db : SQL запрос на чтение
 tdao <-- db : Результативная\nстрока
 tmserv <-- tdao : Объект Task
