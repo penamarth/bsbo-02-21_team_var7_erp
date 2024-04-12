@@ -1,0 +1,35 @@
+@startuml sequence
+title Управление статистикой
+
+actor Руководитель as manager
+
+boundary "Интерфейс" as site
+control StatisticsController as scont
+control TaskDao as tasker
+control ProjectDao as sserv
+database Database as db
+
+activate manager
+activate worker
+activate site
+activate tasker
+activate db
+activate scont
+activate sserv
+
+group Запрос статистики Руководителем
+    manager -> site : Запрос статистики проекта/задач
+    site -> scont : JSON запрос статистики
+    scont -> tasker : getProjectStatistics(long projectId)
+    tasker -> sserv : Передача запроса
+    sserv -> db : SQL запрос данных проекта
+    db --> sserv : Данные проекта
+    sserv --> tasker : Статистика проекта
+    tasker -> tasker : Обработка в TaskDao
+    tasker -->scont  : Передача обработанного
+    scont --> site : JSON ответ с кодом 200
+    site --> manager : Отображение статистики
+end
+
+
+@enduml
