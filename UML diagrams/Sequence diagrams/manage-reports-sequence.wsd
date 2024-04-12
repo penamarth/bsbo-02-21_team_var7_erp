@@ -10,6 +10,7 @@ control ProjectAccessManagementService as amserv
 control ReportDAO as rdao
 control UserDAO as udao
 control ProjectDAO as pdao
+control KanbanDeskDAO as kdao
 control TaskDAO as tdao
 database Database as db
 
@@ -21,12 +22,24 @@ activate amserv
 activate rdao
 activate udao
 activate pdao
+activate kdao
 activate tdao
 activate db
 
 
 user -> site : Заполнение формы отчета\nи нажатие кнопки "Отослать отчет"
-site -> rcont : JSON с данными отчета \n(Dictionary<Project, Dictionary<id, Time>, String)
+site -> rcont : JSON с данными отчета \nsaveReport(ReportDto reportDto)
+rcont -> rmserv : saveReport(ReportDto reportDto)
+
+rmserv -> rmserv : Проверка, что id авторизированного пользователя\n
+                    и id пользователя в запросе совпадают
+
+rmserv -> udao : findById(long userId)
+
+rmserv -> kdao : findById(long kanbanDeskId)
+
+rmserv -> pdao : findByUserAndKanbanDesk(User user, KanbanDesk kanbanDesk)
+
 
 alt Запрос верный
     rcont -> rcont : AccessManagePolicy(User, Project, 'Worker')

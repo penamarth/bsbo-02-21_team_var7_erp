@@ -102,8 +102,11 @@ class TaskStatus
 }
 class Task
 {
+    - KanbanDesk kanbanDesk
     - TaskStatus taskStatus
     - String description
+    + KanbanDesk getKanbanDesk()
+    + void setKanbanDesk(KanbanDesk kanbanDesk)
     + TaskStatus getTaskStatus()
     + void setTaskStatus(TaskStatus taskStatus)
     + String getDescription()
@@ -113,13 +116,10 @@ class TaskDto
 {
     - TaskStatus taskStatus
     - String description
-    - List<UserDto> users
     + TaskStatus getTaskStatus()
     + void setTaskStatus(TaskStatus taskStatus)
     + String getDescription()
-    + void setDescription(String description)
-    + List<User> getUsers()
-    + void setUsers(List<UserDto> users)   
+    + void setDescription(String description) 
 }
 class KanbanDesk
 {
@@ -166,6 +166,19 @@ class Report
     + String getMessage()
     + void setMessage(String message)
 }
+class ReportDto
+{
+    - long userId
+    - long kanbanDeskId
+    - List<Long> tasksId
+    - String message
+    + void setUserId(long)
+    + long getUserId()
+    + void kanbanDeskId(long)
+    + long getKanbanDeskId()
+    + void setTasksId(List<Long>)
+    + List<Long> getTasksId()
+}
 class Specialization
 {
     - String name
@@ -193,13 +206,18 @@ class TaskController
 {
     - TaskManagerService taskManagerService
     + TaskController(TaskManagerService taskManagerService)
-    + ResponseEntity<TaskDto> updateTask(TaskDto taskDto)
+    + TaskDto updateTask(TaskDto taskDto)
 }
 class ProjectController
 {
     - ProjectManagerService projectManagerService
-    + ResponseEntity<ProjectDto> createOrUpdateProject(ProjectDto projectDto)
+    + ProjectDto createOrUpdateProject(ProjectDto projectDto)
     + ResponseEntity<ProjectDto> update
+}
+class ReportController
+{
+    - ReportManagerService reportManagerService
+    + ReportDto saveReport(ReportDto reportDto)
 }
 interface TaskManagerService
 {
@@ -208,6 +226,10 @@ interface TaskManagerService
 interface ProjectManagerService
 {
     + ProjectDto createOrUpdateProject(ProjectDto projectDto)
+}
+class ReportManagerService
+{
+    + ReportDto saveReport(ReportDto reportDto)
 }
 class TaskManagerServiceImpl
 {
@@ -218,6 +240,11 @@ class ProjectManagerServiceImpl
 {
     - ProjectDao projectDao
     + ProjectManagerServiceImpl(ProjectDao projectDao)
+}
+class ReportManagerServiceImpl
+{
+    - ReportDao reportDao
+    + ReportManagerService(ReportDao reportDao)
 }
 enum Authority
 {
