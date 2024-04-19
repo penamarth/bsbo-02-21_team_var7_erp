@@ -22,7 +22,7 @@ site -> pcont : JSON запрос на изменение\nправ доступ
 
 
 alt Верный запрос
-    pcont -> pcont : Формирование\naccessManagePolicy(sender:User, roject:Project, 'Manager':String)
+    pcont -> pcont : Формирование\naccessManagePolicy(sender:User, project:Project, 'Manager':Role)
     pcont -> amserv : hasUserAccessToProject(accessManagePolicy:AccessManagePolicy)
     amserv -> pdao : findByID(project:Project)
     alt Project
@@ -30,11 +30,11 @@ alt Верный запрос
         pdao -> db : SQL-запрос
         alt True
             pcont <- amserv : True
-            pcont -> pcont : Формирование\naccessManagePolicy(user:User, project:Project, newAccess:String)
+            pcont -> pcont : Формирование\naccessManagePolicy(user:User, project:Project, newAccess:Role)
             pcont -> amserv: updateUserAccessToProject(accessManagePolicy)
             amserv -> udao : findByID(user:long)
             alt User
-                amserv -> pdao : setAccessToProject(user:User, project:Project, newAccess:String)
+                amserv -> pdao : setAccessToProject(user:User, project:Project)
                 pdao -> db : SQL-запрос
                 alt True
                     pcont <- amserv : True

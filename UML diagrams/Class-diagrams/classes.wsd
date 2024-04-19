@@ -104,6 +104,7 @@ class Task
 {
     - TaskStatus taskStatus
     - String description
+    - CompletedBy User
     + TaskStatus getTaskStatus()
     + void setTaskStatus(TaskStatus taskStatus)
     + String getDescription()
