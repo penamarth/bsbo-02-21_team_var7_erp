@@ -17,51 +17,54 @@ control TaskDAO as tdao
 database Database as db
 
 user -> site : Заполнение формы отчета\nи нажатие кнопки "Отослать отчет"
-site -> rcont : JSON с данными отчета \nsaveReport(ReportDto reportDto)
+site -> rcont : JSON с данными отчета 
 
+alt Запрос верный
+    group Проверка доступа
+        rcont -> kdao : findProjectByKanban(KanbadDesk: long)
+        alt Project:
 
-group Проверка доступа
-    rcont -> kdao : findProjectByKanban(KanbadDesk)
-    alt Project:
-
-        amserv -> pdao : isProjectWorker(sender:User, project:Project)
-        pdao -> db : SQL-запрос
-        alt Есть запись:
-            amserv <- pdao : True
-            rcont <- amserv : True
-            rcont -> rmserv : saveReport(ReportDto reportDto)
-            group Сохранение репорта
-                loop ReportDTO.tasks:
-                    rmserv -> tdao : markAsDone(task:Task, completedBy:User)
-                    tdao -> db : SQL-запрос
+            amserv -> pdao : isProjectWorker(sender:User, project:Project)
+            pdao -> db : SQL-запрос
+            alt Есть запись:
+                amserv <- pdao : True
+                rcont <- amserv : True
+                rcont -> rcont : ReportDTO(user: User, tasks : List<Tasks>, Message:String)
+                rcont -> rmserv : saveReport(report : ReportDTO)
+                group Сохранение репорта
+                    loop ReportDTO.tasks:
+                        rmserv -> tdao : markAsDoneBy(task:Task, completedBy:User)
+                        tdao -> db : SQL-запрос
+                    end
+                    rmserv -> rdao : createMessageForReport(report : ReportDTO)
+                    rdao -> db : SQL запрос на сохранение\nReportDTO.message в базе данных рядом с ReportDTO.id
+                    alt True:
+                        rmserv <- rdao : True
+                        rcont <- rmserv : True
+                        site <- rcont : 200
+                        user <- site : Отображение завершения отправи репорта
+                    alt False:
+                        rmserv <- rdao : False
+                        rcont <- rmserv : False
+                        site <- rcont : 403\n Незивестная ошибка
+                        user <- site : Отображение ошибки при отправке запроса
                 end
-                rmserv -> rdao : createMessageForReport(ReportDTO)
-                rdao -> db : SQL запрос на сохранение\nReportDTO.message в базе данных рядом с ReportDTO.id
-                alt True:
-                    rmserv <- rdao : True
-                    rcont <- rmserv : True
-                    site <- rcont : 200
-                    user <- site : Отображение завершения отправи репорта
-                alt False:
-                    rmserv <- rdao : False
-                    rcont <- rmserv : False
-                    site <- rcont : 403\n Незивестная ошибка
-                    user <- site : Отображение ошибки при отправке запроса
+            else Нет записи:
+                amserv <- pdao : False
+                rcont <- amserv : PermissionsDenied
+                site <- rcont : 401:\nPermissionsDenied
+                user <- site : Отображение ошибки
             end
-        else Нет записи:
-            amserv <- pdao : False
-            rcont <- amserv : PermissionsDenied
-            site <- rcont : 401:\nPermissionsDenied
+        else None:
+            rcont <- kdao : NoSuchProject
+            site <- rcont : 404\nПроект пользователя не найден
             user <- site : Отображение ошибки
-        end
-    else None:
-        rcont <- kdao : NoSuchProject
-        site <- rcont : 404\nПроект пользователя не найден
-        user <- site : Отображение ошибки
 
+    end
+else Ошибка в запросе:
+    rcont -> site : Сообщение об ошибке в\nзапросе с кодом 400
+    user <- site : Отображение ошибки
 end
-
-
 
 
 @enduml
