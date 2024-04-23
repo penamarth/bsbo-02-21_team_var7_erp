@@ -1,0 +1,70 @@
+@startuml sequence
+title Работа с системой отчетов
+
+actor Пользователь as user
+
+boundary "Интерфейс" as site
+
+control ReportController as rcont
+control ReportManageService as rmserv
+control ProjectAccessManagementService as amserv
+
+control ReportDAO as rdao
+control ProjectDAO as pdao
+control KanbanDeskDAO as kdao
+
+control TaskDAO as tdao
+database Database as db
+
+user -> site : Заполнение формы отчета\nи нажатие кнопки "Отослать отчет"
+site -> rcont : JSON с данными отчета 
+
+alt Запрос верный
+    group Проверка доступа
+        rcont -> kdao : findProjectByKanban(KanbadDesk: long)
+        alt Project:
+
+            amserv -> pdao : isProjectWorker(sender:User, project:Project)
+            pdao -> db : SQL-запрос
+            alt Есть запись:
+                amserv <- pdao : True
+                rcont <- amserv : True
+                rcont -> rcont : ReportDTO(user: User, tasks : List<Tasks>, Message:String)
+                rcont -> rmserv : saveReport(report : ReportDTO)
+                group Сохранение репорта
+                    loop ReportDTO.tasks:
+                        rmserv -> tdao : markAsDoneBy(task:Task, completedBy:User)
+                        tdao -> db : SQL-запрос
+                    end
+                    rmserv -> rdao : createMessageForReport(report : ReportDTO)
+                    rdao -> db : SQL запрос на сохранение\nReportDTO.message в базе данных рядом с ReportDTO.id
+                    alt True:
+                        rmserv <- rdao : True
+                        rcont <- rmserv : True
+                        site <- rcont : 200
+                        user <- site : Отображение завершения отправи репорта
+                    alt False:
+                        rmserv <- rdao : False
+                        rcont <- rmserv : False
+                        site <- rcont : 403\n Незивестная ошибка
+                        user <- site : Отображение ошибки при отправке запроса
+                end
+            else Нет записи:
+                amserv <- pdao : False
+                rcont <- amserv : PermissionsDenied
+                site <- rcont : 401:\nPermissionsDenied
+                user <- site : Отображение ошибки
+            end
+        else None:
+            rcont <- kdao : NoSuchProject
+            site <- rcont : 404\nПроект пользователя не найден
+            user <- site : Отображение ошибки
+
+    end
+else Ошибка в запросе:
+    rcont -> site : Сообщение об ошибке в\nзапросе с кодом 400
+    user <- site : Отображение ошибки
+end
+
+
+@enduml

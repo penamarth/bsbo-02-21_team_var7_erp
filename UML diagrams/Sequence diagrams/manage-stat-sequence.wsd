@@ -1,0 +1,43 @@
+@startuml sequence
+title Управление статистикой
+
+actor Руководитель as manager
+
+boundary "Интерфейс" as site
+control StatisticsController as scont
+control TaskDao as tasker
+control ProjectDao as sserv
+database Database as db
+
+activate manager
+activate site
+activate tasker
+activate db
+activate scont
+activate sserv
+
+group Запрос статистики Руководителем
+    manager -> site : Запрос статистики проекта/задач
+    site -> scont : JSON запрос статистики
+    scont -> sserv : getProjectStatistics(long projectId)
+    scont -> sserv : getAllUncompletedTasks()
+    scont -> sserv : getUserMessages(long userId)
+    scont -> sserv : getAllMessages()
+    alt успешный запрос
+        sserv -> tasker : Запрос данных о задачах
+        sserv -> db : SQL запрос данных проекта
+        db --> sserv : Данные проекта
+        tasker --> sserv : Данные о задачах
+        sserv -> sserv : Объединение данных
+        sserv --> scont : Статистика проекта
+        scont --> site : JSON ответ с кодом 200
+        site --> manager : Отображение статистики
+    else данные не найдены
+        db --> sserv : SQL ошибка "нет данных"
+        sserv --> scont : Ошибка 404
+        scont --> site : JSON ответ с кодом 404
+        site --> manager : Сообщение об ошибке "Данные не найдены"
+    end
+end
+
+@enduml

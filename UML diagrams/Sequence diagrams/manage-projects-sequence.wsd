@@ -24,8 +24,8 @@ else запрос не прошел валидацию
     manager <-- site : Отображение ошибки
 end
 
-pcont -> pmserv : createOrUpdateProject(ProjectDto)
-pmserv -> pdao : saveOrUpdate(ProjectEntity)
+pcont -> pmserv : createOrUpdateProject(projectDto:Project)
+pmserv -> pdao : save(projectEntity:Project)
 
 alt проект успешно создан/изменен
     pdao -> db : SQL запрос

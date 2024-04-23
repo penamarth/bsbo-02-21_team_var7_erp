@@ -20,19 +20,21 @@ activate udao
 user -> site : Изменение права доступа через GUI
 site -> pcont : JSON запрос на изменение\nправ доступа к проекту\nпользователем
 
+
 alt Верный запрос
-    pcont -> pcont : Формирование\nAccessManagePolicy(Sender, Project, 'Manager')
-    pcont -> amserv : hasUserAccessToProject(AccessManagePolicy)
-    amserv -> pdao : findByID(Project)
+    pcont -> pcont : Формирование\naccessManagePolicy(sender:User, project:Project, 'Manager':Role)
+    pcont -> amserv : hasUserAccessToProject(accessManagePolicy:AccessManagePolicy)
+    amserv -> pdao : findByID(project:Project)
     alt Project
-        amserv -> pdao : isProjectManager(long, long)
+        amserv -> pdao : isProjectManager(sender:User, project:Project)
+        pdao -> db : SQL-запрос
         alt True
             pcont <- amserv : True
-            pcont -> pcont : Формирование\nAccessManagePolicy(User, Project, NewAccess)
-            pcont -> amserv: updateUserAccessToProject(AccessManagePolicy)
-            amserv -> udao : findByID(long)
+            pcont -> pcont : Формирование\naccessManagePolicy(user:User, project:Project, newAccess:Role)
+            pcont -> amserv: updateUserAccessToProject(accessManagePolicy)
+            amserv -> udao : findByID(user:long)
             alt User
-                amserv -> pdao : setAccessToProject(long, long, String)
+                amserv -> pdao : setAccessToProject(user:User, project:Project)
                 pdao -> db : SQL-запрос
                 alt True
                     pcont <- amserv : True

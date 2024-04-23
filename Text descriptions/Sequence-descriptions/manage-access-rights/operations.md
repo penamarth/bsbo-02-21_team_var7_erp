@@ -1,6 +1,6 @@
 Операция: hasUserAccessToProject(accessPolicy: AccessManagePolicy)
 Предусловия: 
-+ объект AccessManagePolicy (формируется на основе конструктора AccessManagePolicy(User, Project, Access))
++ объект AccessManagePolicy (формируется на основе конструктора AccessManagePolicy(user:User, project:Project, access:String))
 Постусловия:
 + Проверяет, есть ли у пользователя доступ, соответствующий политике AccessManagePolicy
 + True, если "у пользователя есть доступ к проекту"
@@ -10,7 +10,7 @@
 Операция: findByID(id: long)
 Предусловия: нет
 Постусловия
-+ Возвращает искомую сущность (Project, User)
++ Возвращает искомую сущность
 + Исключение NoSuchProject, NoSuchUser если объект не найден в базе данных
 
 Операция: isProjectManager(id: long, id: long)
@@ -23,7 +23,7 @@
 
 Операция: updateUserAccessToProject(accessPolicy: AccessManagePolicy)
 Предусловия: 
-+ объект AccessManagePolicy (формируется на основе конструктора AccessManagePolicy(User, Project, Access))
++ объект AccessManagePolicy (формируется на основе конструктора AccessManagePolicy(user: User, project:Project, access:String))
 Постусловия:
 + Проверяет наличие User в системе, а затем обращается к базе данных для обновления политики доступа
 + True, если обновление произведено
