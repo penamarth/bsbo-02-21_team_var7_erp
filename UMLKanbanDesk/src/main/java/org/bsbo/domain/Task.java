@@ -1,4 +1,9 @@
 package org.bsbo.domain;
 
-public class Task {
+import org.bsbo.Abstract.AbstractEntity;
+
+public class Task extends AbstractEntity {
+    private TaskStatus taskStatus;
+    private String description;
+    private User completedBy;
 }
