@@ -18,6 +18,9 @@ public class ReportController {
     }
     public ResponseEntity<ReportDto> createReport(UserDto userDto, long kanbanDeskId,
                                                   String message, List<TaskDto> tasks) {
-        return null;
+        System.out.println("Вызван метод createReport класса ReportController");
+        kanbanDeskDao.findProjectByKanban(kanbanDeskId);
+        reportManageService.saveReport(new ReportDto());
+        return new ResponseEntity<>();
     }
 }

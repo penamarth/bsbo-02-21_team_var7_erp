@@ -7,6 +7,7 @@ import org.bsbo.dto.ReportDto;
 public class ReportDaoImpl implements ReportDao {
     @Override
     public Report createMessageForReport(ReportDto reportDto) {
-        return null;
+        System.out.println("Вызван метод createMessageForReport класса ReportDaoImpl");
+        return new Report();
     }
 }

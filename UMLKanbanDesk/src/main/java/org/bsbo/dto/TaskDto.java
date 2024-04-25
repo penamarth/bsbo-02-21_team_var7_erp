@@ -1,10 +1,11 @@
 package org.bsbo.dto;
 
+import org.bsbo.domain.AbstractEntity;
 import org.bsbo.domain.TaskStatus;
 
 import java.util.List;
 
-public class TaskDto {
+public class TaskDto extends AbstractEntity {
     private TaskStatus taskStatus;
     private String description;
     private UserDto user;

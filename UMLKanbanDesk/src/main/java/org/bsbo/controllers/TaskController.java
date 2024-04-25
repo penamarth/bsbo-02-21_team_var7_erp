@@ -10,6 +10,8 @@ public class TaskController {
         this.taskManageService = taskManageService;
     }
     public ResponseEntity<TaskDto> updateTask(TaskDto taskDto) {
-        return null;
+        System.out.println("Вызван метод updateTask класса TaskController");
+        taskManageService.updateTask(taskDto);
+        return new ResponseEntity<>();
     }
 }

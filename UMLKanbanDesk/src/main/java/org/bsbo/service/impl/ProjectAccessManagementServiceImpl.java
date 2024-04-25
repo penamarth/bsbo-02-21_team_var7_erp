@@ -12,6 +12,8 @@ public class ProjectAccessManagementServiceImpl implements ProjectAccessManageme
     }
     @Override
     public boolean isProjectWorker(User user, Project project) {
-        return false;
+        System.out.println("Вызван метод isProjectWorker класса ProjectAccessManagementServiceImpl");
+        projectDao.isProjectWorker(user, project);
+        return true;
     }
 }

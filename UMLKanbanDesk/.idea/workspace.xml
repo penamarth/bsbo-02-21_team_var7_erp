@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2950079-9348-40e6-969f-830133c60277" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/ReportController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/StatisticsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/TaskController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/Statistics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/util/ResponseEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/ProjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/StatisticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/StatisticsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/controllers/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/KanbanDeskDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/KanbanDeskDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/ProjectDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/ProjectDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/KanbanDeskDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/KanbanDeskDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/ProjectDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/ProjectDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/ReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/ReportDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/TaskDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/TaskDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/UserDaoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/TaskDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/TaskDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/service/ProjectManageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/ProjectManageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ProjectAccessManagementServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ProjectAccessManagementServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ProjectManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ProjectManageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ReportManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ReportManageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/TaskManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/TaskManageServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +57,26 @@
     &quot;last_opened_file_path&quot;: &quot;D:/YandexDisc/YandexDisk/Образование/ВУЗ/bsbo-02-21_team8_var7_erp/UMLKanbanDesk&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.bsbo.Main" />
+      <module name="UMLKanbanDesk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.bsbo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

@@ -7,14 +7,18 @@ import org.bsbo.domain.User;
 public class TaskDaoImpl implements TaskDao {
     @Override
     public Task findById(long id) {
-        return null;
+        System.out.println("Вызван метод findById класса TaskDaoImpl");
+        return new Task();
     }
     @Override
     public Task save(Task task) {
-        return null;
+        System.out.println("Вызван метод save класса TaskDaoImpl");
+        findById(task.getId());
+        return new Task();
     }
     @Override
     public Task markAsDoneBy(Task task, User user) {
-        return null;
+        System.out.println("Вызван метод markAsDoneBy класса TaskDaoImpl");
+        return new Task();
     }
 }

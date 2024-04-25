@@ -9,19 +9,14 @@ public class ProjectController {
     public ProjectController(ProjectManageService projectManageService) {
         this.projectManageService = projectManageService;
     }
-//    public ResponseEntity<ProjectDto> createOrUpdateProject(ProjectDto projectDto) {
-//        return null;
-//    }
-    public ResponseEntity<ProjectDto> update(ProjectDto projectDto) {
-        ResponseEntity<ProjectDto> responseEntity = new ResponseEntity<>();
-        responseEntity.setBody(projectManageService.createOrUpdateProject(projectDto));
-        responseEntity.setCode(200);
-        return responseEntity;
+    public ResponseEntity<ProjectDto> createOrUpdateProject(ProjectDto projectDto) {
+        System.out.println("Вызван метод createOrUpdateProject класса ProjectController");
+        projectManageService.createOrUpdateProject(projectDto);
+        return new ResponseEntity<>();
     }
     public ResponseEntity<ProjectDto> addUserToProject(long userId, long projectId) {
-        ResponseEntity<ProjectDto> responseEntity = new ResponseEntity<>();
-        responseEntity.setBody(projectManageService.addUserToProject(userId, projectId));
-        responseEntity.setCode(200);
-        return responseEntity;
+        System.out.println("Вызван метод addUserToProject класса ProjectController");
+        projectManageService.addUserToProject(userId, projectId);
+        return new ResponseEntity<>();
     }
 }
