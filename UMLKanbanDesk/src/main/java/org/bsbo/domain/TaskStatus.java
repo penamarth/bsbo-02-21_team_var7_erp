@@ -1,4 +1,11 @@
 package org.bsbo.domain;
 
-public class TaskStatus {
+public class TaskStatus extends AbstractEntity {
+    private String name;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 }

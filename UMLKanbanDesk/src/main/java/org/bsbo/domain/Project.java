@@ -1,11 +1,17 @@
 package org.bsbo.domain;
 
-import org.bsbo.Abstract.AbstractEntity;
-
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Project extends AbstractEntity {
+    private String name;
+    private String projectGoal;
+    private Date deadline;
+    private String customer;
+    private KanbanDesk kanbanDesk;
+    private List<User> workers;
+    private User manager;
     public String getName() {
         return name;
     }
@@ -46,7 +52,7 @@ public class Project extends AbstractEntity {
         this.kanbanDesk = kanbanDesk;
     }
 
-    public ArrayList<User> getWorkers() {
+    public List<User> getWorkers() {
         return workers;
     }
 
@@ -61,17 +67,4 @@ public class Project extends AbstractEntity {
     public void setManager(User manager) {
         this.manager = manager;
     }
-
-    private String name;
-    private String projectGoal;
-    private Date deadline;
-
-    private String customer;
-    private KanbanDesk kanbanDesk;
-    private ArrayList<User> workers;
-    private User manager;
-
-
-
-
 }
