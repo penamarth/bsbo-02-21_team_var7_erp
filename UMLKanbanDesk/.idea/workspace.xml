@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2950079-9348-40e6-969f-830133c60277" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/KanbanDeskDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/ProjectDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/ReportDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/TaskDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dto/UserDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/Abstract/AbstractEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/AbstractEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/KanbanDesk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/KanbanDesk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Report.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Specialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Specialization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/TaskStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/TaskStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/domain/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
