@@ -104,11 +104,14 @@ class Task
 {
     - TaskStatus taskStatus
     - String description
-    - CompletedBy User
+    - User completedBy
     + TaskStatus getTaskStatus()
     + void setTaskStatus(TaskStatus taskStatus)
     + String getDescription()
     + void setDescription(String description)
+    + bool isCompleted()
+    + User getCompletedBy()
+    + void setCompletedBy(User user)
 }
 class TaskDto
 {
