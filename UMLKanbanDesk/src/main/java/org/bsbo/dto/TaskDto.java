@@ -7,7 +7,7 @@ import java.util.List;
 public class TaskDto {
     private TaskStatus taskStatus;
     private String description;
-    private List<UserDto> users;
+    private UserDto user;
     public TaskStatus getTaskStatus() {
         return taskStatus;
     }
@@ -20,10 +20,10 @@ public class TaskDto {
     public void setDescription(String description) {
         this.description = description;
     }
-    public List<UserDto> getUsers() {
-        return users;
+    public UserDto getUser() {
+        return user;
     }
-    public void setUsers(List<UserDto> users) {
-        this.users = users;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }
