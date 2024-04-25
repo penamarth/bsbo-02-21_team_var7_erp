@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2950079-9348-40e6-969f-830133c60277" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/KanbanDeskDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/ProjectDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/ReportDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/UserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/KanbanDeskDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/ProjectDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/ReportDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/UserDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/ProjectAccessManagementService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/ProjectManageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/ReportManageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/TaskManageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ProjectAccessManagementServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ProjectManageServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/ReportManageServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/service/impl/TaskManageServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/TaskDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/TaskDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/TaskDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/bsbo/dao/impl/TaskDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

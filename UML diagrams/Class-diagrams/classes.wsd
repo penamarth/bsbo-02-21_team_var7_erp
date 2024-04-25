@@ -285,11 +285,11 @@ class TaskManagerServiceImpl
     - TaskDao taskDao
     + TaskManagerServiceImpl(TaskDao taskDao)
 }
-interface ReportManageServiceImpl
-{
-    - ReportDao reportDao
-    + ReportManageServiceImpl(ReportDao reportDao)
-}
+' interface ReportManageServiceImpl
+' {
+'     - ReportDao reportDao
+'     + ReportManageServiceImpl(ReportDao reportDao)
+' }
 class ProjectManagerServiceImpl
 {
     - ProjectDao projectDao
