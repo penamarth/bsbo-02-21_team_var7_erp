@@ -16,6 +16,17 @@ control KanbanDeskDAO as kdao
 control TaskDAO as tdao
 database Database as db
 
+activate user
+activate site
+activate rcont
+activate rmserv
+activate amserv
+activate rdao
+activate pdao
+activate kdao
+activate tdao
+activate db
+
 user -> site : Заполнение формы отчета\nи нажатие кнопки "Отослать отчет"
 site -> rcont : JSON с данными отчета 
 

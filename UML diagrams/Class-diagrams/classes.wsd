@@ -167,6 +167,21 @@ class Report
     + String getMessage()
     + void setMessage(String message)
 }
+class ReportDto
+{
+    - UserDto user
+    - KanbanDeskDto kanbanDesk
+    - List<TaskDto> tasks
+    - String message
+    + UserDto getUser()
+    + void setUser(UserDto user)
+    + KanbanDeskDto getKanbanDesk()
+    + void setKanbanDesk(KanbanDeskDto kanbanDesk)
+    + List<TaskDto> getTasks()
+    + void setTasks(List<TaskDto> tasks)
+    + String getMessage()
+    + void setMessage(String message)
+}
 class Specialization
 {
     - String name
@@ -177,10 +192,39 @@ interface TaskDao
 {
     + Task findById(long id)
     + Task save(Task task)
+    + Task markAsDoneBy(Task task, User user)
 }
 interface ProjectDao
 {
     + Project save(Project project)
+    + Project getProjectStatistics(long id)
+    + List<Task> getAllUncompletedTasks(Project project)
+    + List<Report> getUserMessages(long userId)
+    + List<Report> getAllMessages()
+}
+interface KanbanDeskDao
+{
+    + findById(long id)
+}
+interface ReportDao
+{
+    + createMessageForReport(ReportDto reportDto)
+}
+interface UserDao
+{
+    + User findById(long id)
+}
+class UserDaoImpl
+{
+
+}
+class ReportDaoImpl
+{
+
+}
+interface KanbanDeskDaoImpl
+{
+
 }
 class TaskDaoImpl
 {
@@ -189,6 +233,10 @@ class TaskDaoImpl
 class ProjectDaoImpl
 {
 
+}
+class StatisticsController
+{
+    
 }
 class TaskController
 {
@@ -202,6 +250,15 @@ class ProjectController
     + ResponseEntity<ProjectDto> createOrUpdateProject(ProjectDto projectDto)
     + ResponseEntity<ProjectDto> update
 }
+class ReportController
+{
+    - ReportManageService reportManageService
+    + ReportDto createReport()
+}
+interface ReportManageService 
+{
+    + ReportDto saveReport(ReportDto reportDto)
+}
 interface TaskManagerService
 {
     + TaskDto updateTask(TaskDto taskDto)
@@ -210,22 +267,41 @@ interface ProjectManagerService
 {
     + ProjectDto createOrUpdateProject(ProjectDto projectDto)
 }
+interface ProjectAccessManagementService
+{
+    + isProjectWorker(User user, Project project)
+}
+class ReportManageServiceImpl
+{
+    - TaskDao taskDao
+    - ReportDao reportDao
+    + ReportManageServiceImpl(TaskDao taskDao, ReportDao reportDao)
+}
 class TaskManagerServiceImpl
 {
     - TaskDao taskDao
     + TaskManagerServiceImpl(TaskDao taskDao)
+}
+interface ReportManageServiceImpl
+{
+    - ReportDao reportDao
+    + ReportManageServiceImpl(ReportDao reportDao)
 }
 class ProjectManagerServiceImpl
 {
     - ProjectDao projectDao
     + ProjectManagerServiceImpl(ProjectDao projectDao)
 }
-enum Authority
-{
-    + READ
-    + EDIT
-}
 
+ReportManageService ..> ReportDto
+ReportDao ..> Report
+StatisticsController ..> TaskDao
+StatisticsController ..> ProjectDao
+ReportController ..> ProjectAccessManagementService
+KanbanDeskDaoImpl --|> KanbanDeskDao
+ReportDaoImpl --|> ReportDao
+KanbanDeskDao ..> KanbanDesk
+ReportDto ..> Report
 User --|> AbstractEntity
 Project --|> AbstractEntity
 TaskStatus --|> AbstractEntity
@@ -246,6 +322,9 @@ UserDto --o Specialization
 UserDto --o Role
 TaskDto --o UserDto
 TaskDaoImpl ..|> TaskDao
+TaskDao ..> Task
+UserDaoImpl ..|> UserDao
+UserDao ..> User
 TaskManagerServiceImpl ..|> TaskManagerService
 TaskController ..> TaskManagerService
 TaskController ..> TaskDto
@@ -256,8 +335,13 @@ KanbanDeskDto --o TaskDto
 ProjectController --> ProjectDto
 ProjectController --> ProjectManagerService
 ProjectManagerServiceImpl --> ProjectDao
+ProjectDao --> Project
 ProjectManagerServiceImpl ..|> ProjectManagerService
 ProjectDaoImpl ..|> ProjectDao
 ProjectManagerService --> ProjectDto
+ReportManageServiceImpl ..|> ReportManageService
+ReportManageServiceImpl ..> ReportDao
+ReportController ..> ReportManageService
+
 
 @enduml

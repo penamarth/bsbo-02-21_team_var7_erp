@@ -17,55 +17,54 @@ activate amserv
 activate pdao
 activate udao
 
-user -> site : Изменение права доступа через GUI
-site -> pcont : JSON запрос на изменение\nправ доступа к проекту\nпользователем
-
-
-alt Верный запрос
-    pcont -> pcont : Формирование\naccessManagePolicy(sender:User, project:Project, 'Manager':Role)
-    pcont -> amserv : hasUserAccessToProject(accessManagePolicy:AccessManagePolicy)
-    amserv -> pdao : findByID(project:Project)
-    alt Project
-        amserv -> pdao : isProjectManager(sender:User, project:Project)
-        pdao -> db : SQL-запрос
-        alt True
-            pcont <- amserv : True
-            pcont -> pcont : Формирование\naccessManagePolicy(user:User, project:Project, newAccess:Role)
-            pcont -> amserv: updateUserAccessToProject(accessManagePolicy)
-            amserv -> udao : findByID(user:long)
-            alt User
-                amserv -> pdao : setAccessToProject(user:User, project:Project)
-                pdao -> db : SQL-запрос
-                alt True
-                    pcont <- amserv : True
-                    site <- pcont : 200
-                    user <- site : Отображение выполнения операции
-                else False
-                    pcont <- amserv : UnknownError 
-                    site <- pcont : 403:\nНеизвестная ошибка
-                    user <- site : Отображение ошибки
-                end
-            else NoSuchUser
-                pcont <- amserv : NoSuchUser
-                site <- pcont : 404:\nПользователь не найден
-                user <- site : Отображение ошибки
-            end
-        
-        else False
-            pcont <- amserv : PermissionsDenied
-            site <- pcont : 401:\nPermissionsDenied
-            user <- site : Отображение ошибки
-        end
-    else NoSuchProject
-        pcont <- amserv : NoSuchProject
-        site <- pcont : 404:\nПроект пользователя не найден
-        user <- site : Отображение ошибки
-    end
-    
-else Ошибка в запросе
-    pcont -> site : Сообщение об ошибке в\nзапросе с кодом 400
-    user <- site : Отображение ошибки
+alt Запрос проходит валидацию
+    user -> site : Изменение права доступа через GUI
+    site -> pcont : JSON запрос на изменение\nправ доступа к проекту\nпользователем
+else Запрос не проходит валидацию
+    site <-- pcont : Сообщение об ошибке в запросе с кодом 400
+    user <-- site : Отображение ошибки
 end
 
+pcont -> amserv : addUserToProject(userId: long, projectId: long)
+amserv -> amserv : getAuthorizatedUser()
+amserv -> udao : findById(id: long)
+udao -> db : SQL запрос
+udao <-- db : Результирующие строки
+amserv <-- udao : User
+amserv -> amserv : Проверка роли пользователя
+alt Пользователь действительно является руководителем
+    amserv -> pdao : findById(id: long)
+    pdao -> db : SQL запрос
+    pdao <-- db : Результирующие строки
+    amserv <-- pdao : Project
+    alt Проект с таким id существует
+        amserv -> udao : findById(id: long)
+        udao -> db : SQL запрос
+        udao <-- db : Результирующие строки
+        amserv <-- udao : User
+        alt Пользователь с таким id существует
+            amserv -> amserv : Добавить пользователя в проект
+            amserv -> pdao : save(project: Project)
+            pdao -> db : SQL запрос
+            pdao <-- db : Результирующие строки
+            amserv <-- pdao : Project
+            pcont <-- amserv : ProjectDto
+            site <-- pcont : Ответ с кодом 200
+            user <-- site : Отображение изменений
+        else Пользователь с таким id не существует
+            pcont <-- amserv : NotFoundException
+            site <-- pcont : Ответ с кодом 404
+            user <-- site : Отображение ошибки
+        end
+    else Проект с таким id не существует
+        pcont <-- amserv : NotFoundException
+        site <-- pcont : Ответ с кодом 404
+        user <-- site : Отображение ошибки
+    end
+else Пользователь не руководитель проекта
+    pcont <-- amserv : PermissionDeniedException
+    site <-- pcont : Ответ с кодом 403
+    user <-- site : Отображение ошибки
+end
 
 @enduml
