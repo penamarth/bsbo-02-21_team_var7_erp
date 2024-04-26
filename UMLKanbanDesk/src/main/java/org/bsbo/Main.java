@@ -7,7 +7,6 @@ import org.bsbo.controllers.StatisticsController;
 import org.bsbo.controllers.TaskController;
 import org.bsbo.dao.*;
 import org.bsbo.dao.impl.*;
-import org.bsbo.domain.Task;
 import org.bsbo.dto.ProjectDto;
 import org.bsbo.dto.TaskDto;
 import org.bsbo.dto.UserDto;
@@ -19,18 +18,40 @@ import org.bsbo.service.impl.ReportManageServiceImpl;
 import org.bsbo.service.impl.TaskManageServiceImpl;
 import org.bsbo.util.ResponseEntity;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. Вызвать Usecase Управление задачами");
+        System.out.println("2. Вызвать Usecase Управление проектами");
+        System.out.println("3. Вызвать Usecase Управление правами доступа");
+        System.out.println("4. Вызвать Usecase Работа с системой отчетов");
+        System.out.println("5. Вызвать Usecase Работа с системой статистики");
 
-        //TaskManageSequence();
-        //ProjectsManageSequence();
-        AccessManageSequecne();
-        //ReportsManageSequence();
-        //StatisticsManageSequence();
+        System.out.print(">>>");
+        int a = scanner.nextInt();
+
+        switch (a){
+            case 1:
+                TaskManageSequence();
+                break;
+            case 2:
+                ProjectsManageSequence();
+                break;
+            case 3:
+                AccessManageSequecne();
+                break;
+            case 4:
+                ReportsManageSequence();
+                break;
+            case 5:
+                StatisticsManageSequence();
+                break;
+
+        }
     }
 
 
@@ -86,7 +107,7 @@ public class Main {
 
         UserDto udto = new UserDto();
 
-        ArrayList<TaskDto> tasks = new ArrayList<TaskDto>();
+        ArrayList<TaskDto> tasks = new ArrayList<>();
         rcont.createReport(udto, 10, "Completed new task", tasks);
         System.out.println("Usecase Работа с системой отчетов - Завершен");
     }
