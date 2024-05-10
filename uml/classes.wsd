@@ -1,0 +1,118 @@
+@startuml classes
+
+class Commit {
+    - LocalDateTime localDateTime
+    - String userName
+    - String reducedHash
+    + LocalDateTime getLocalDateTime()
+    + void setLocalDateTime(LocalDateTime localDateTime)
+    + String getUserName()
+    + void setUserName(String userName)
+    + String getReducedHash()
+    + void setReducedHash(String reducedHash)
+}
+
+class User {
+    - String firstName
+    - String secondName
+    - String middleName
+    + String getFirstName
+    + void setFirstName
+    + String getLastName
+    + void setLastName
+    + String getMiddleName
+    + void setMiddleName
+}
+
+class EndOfSprintEventPublisher {
+    - List<Subscriber> subscriberList
+    + void subscribe(Subscriber subscriber)
+    + void unsubscribe(Subscriber subscriber)
+    + void notifySubscribers()
+}
+
+interface Subscriber {
+    + void update()
+}
+
+abstract class CommitExtractor {
+    + List<Commit> extractCommits()
+    + abstract CommitSource createCommitSource()
+}
+
+class GithubCommitExtractor {
+    + CommitSource createCommitSource()
+}
+
+class GitlabCommitExtractor {
+    + CommitSource createCommitSource()
+}
+
+interface CommitSource {
+    + List<Commit> extractCommits()
+}
+
+class GithubCommitSource {
+    + extractCommits()
+}
+
+class GitlabCommitSource {
+    + List<Commit> extractCommits()
+}
+
+class EmailService {
+    + void sendMessage(String text, String email)
+}
+
+class EmailUserTopSenderAdapter {
+    - EmailService emailService
+    + EmailUserTopSenderAdapter(EmailService emailService)
+    + void send(List<User> users)
+}
+
+class ReportService {
+    - CommitExtractor commitExtractor
+    - ScoreService scoreService
+    - UserTopSender userTopSender
+    + void update()
+}
+
+class ScoreService {
+    + List<User> getTopUsers(int topNumber, List<Commit> commits)
+}
+
+interface UserTopSender {
+    + void send(List<User> users)
+}
+
+CommitExtractor ..> Commit
+CommitSource ..> Commit
+ReportService ..> Commit
+ScoreService ..> Commit
+
+ReportService ..> User
+ScoreService ..> User
+EmailUserTopSenderAdapter ..> User
+
+EndOfSprintEventPublisher --o Subscriber
+
+GithubCommitExtractor --|> CommitExtractor
+GithubCommitExtractor ..> CommitSource
+
+GitlabCommitExtractor --|> CommitExtractor
+GitlabCommitExtractor ..> CommitSource
+
+GithubCommitSource ..|> CommitSource
+GitlabCommitSource ..|> CommitSource
+
+EmailUserTopSenderAdapter ..> EmailService
+EmailUserTopSenderAdapter ..|> UserTopSender
+
+ReportService ..> CommitExtractor
+ReportService ..> ScoreService
+ReportService ..> UserTopSender
+ReportService ..|> Subscriber
+
+
+
+@enduml

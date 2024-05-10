@@ -1,0 +1,22 @@
+@startuml classes
+    class EndOfSprintEventPublisher {
+    - List<Subscriber> subscriberList
+    + void subscribe(Subscriber subscriber)
+    + void unsubscribe(Subscriber subscriber)
+    + void notifySubscribers()
+}
+
+interface Subscriber {
+    + void update()
+}
+
+class ReportService {
+    - CommitExtractor commitExtractor
+    - ScoreService scoreService
+    - UserTopSender userTopSender
+    + void update()
+}
+
+ReportService ..|> Subscriber
+EndOfSprintEventPublisher --o Subscriber
+@enduml

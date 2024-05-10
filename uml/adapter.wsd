@@ -1,0 +1,23 @@
+@startuml classes
+class ReportService {
+    - CommitExtractor commitExtractor
+    - ScoreService scoreService
+    - UserTopSender userTopSender
+    + void update()
+}
+
+interface UserTopSender {
+    + void send(List<User> users)
+}
+
+class EmailUserTopSenderAdapter {
+    - EmailService emailService
+    + EmailUserTopSenderAdapter(EmailService emailService)
+    + void send(List<User> users)
+}
+
+ReportService ..> UserTopSender
+EmailUserTopSenderAdapter ..> EmailService
+EmailUserTopSenderAdapter ..|> UserTopSender
+
+@enduml

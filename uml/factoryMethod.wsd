@@ -1,0 +1,36 @@
+@startuml classes
+abstract class CommitExtractor {
+    + List<Commit> extractCommits()
+    + abstract CommitSource createCommitSource()
+}
+
+class GithubCommitExtractor {
+    + CommitSource createCommitSource()
+}
+
+class GitlabCommitExtractor {
+    + CommitSource createCommitSource()
+}
+
+interface CommitSource {
+    + List<Commit> extractCommits()
+}
+
+class GithubCommitSource {
+    + extractCommits()
+}
+
+class GitlabCommitSource {
+    + List<Commit> extractCommits()
+}
+
+GithubCommitExtractor --|> CommitExtractor
+GithubCommitExtractor ..> CommitSource
+
+GitlabCommitExtractor --|> CommitExtractor
+GitlabCommitExtractor ..> CommitSource
+
+GithubCommitSource ..|> CommitSource
+GitlabCommitSource ..|> CommitSource
+
+@enduml
